@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController, AlertController } from '@ionic/angular';
+import { ToastController, AlertController, ModalController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { NovaTarefaModalPage } from '../nova-tarefa-modal/nova-tarefa-modal.page';
 
 @Component({
   selector: 'app-lista-tarefa',
@@ -10,28 +11,23 @@ import { Storage } from '@ionic/storage';
 export class ListaTarefaPage {
   title = "Lista | Tarefas";
   tarefas = [];
-  tartefas_key = 'tarefas';
 
-
-  nova_tarefa = this.criar_nova_tarefa();
+  tartefas_key = 'tarefas'
 
   // #2 - Derclarar uma instância no construtor
-  constructor(public toastController: ToastController, public alertController: AlertController, private storage: Storage) {
-  {
-    this.storage.get(this.tartefas_key).then((data) => {
-      if (data) {
-        this.tarefas = data;
-      }
-    });
-  }
+  constructor(public toastController: ToastController, public alertController: AlertController, private storage: Storage, public modalController: ModalController) {
+    {
+      this.storage.get(this.tartefas_key).then((data) => {
+        if (data) {
+          this.tarefas = data;
+        }
+      });
+    }
   }
 
-  async add() {
-    this.tarefas.push(this.nova_tarefa);
+  async add(tarefa) {
+    this.tarefas.push(tarefa);
     this.storage.set(this.tartefas_key, this.tarefas);
-
-    this.nova_tarefa = this.criar_nova_tarefa();
-    
 
     // #3 - Criando um Toast
     const toast = await this.toastController.create({
@@ -43,14 +39,6 @@ export class ListaTarefaPage {
 
     // #4 Exibir a mensagem na tela
     toast.present();
-  }
-
-  criar_nova_tarefa() {
-    return {
-      "descricao": "",
-      "horario": ""
-
-    }
   }
 
   async remove(tarefa) {
@@ -65,11 +53,11 @@ export class ListaTarefaPage {
           handler: (blah) => {
             console.log('Confirm Cancel: blah');
           }
+
         }, {
           text: 'Ok',
           handler: async () => {
             // Atualizar formulário
-            this.nova_tarefa = tarefa
 
             // Remover o item selecionado da lista
             var i = this.tarefas.indexOf(tarefa);
@@ -93,15 +81,25 @@ export class ListaTarefaPage {
 
     await alert.present();
 
-
-
   }
 
   edit(tarefa) {
-    this.nova_tarefa = tarefa
 
     var i = this.tarefas.indexOf(tarefa);
     this.tarefas.splice(i, 1);
 
+  }
+
+  async exibir_modal() {
+    const modal = await this.modalController.create({
+      component: NovaTarefaModalPage
+    });
+
+    modal.onDidDismiss().then((retorno) => {
+      this.add(retorno.data);
+    });
+
+    //Exibição
+    await modal.present();
   }
 }

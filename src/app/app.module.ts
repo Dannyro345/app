@@ -10,6 +10,11 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { IonicStorageModule } from '@ionic/storage';
+import { NovaTarefaModalPage } from './nova-tarefa-modal/nova-tarefa-modal.page';
+
+import {NovaTarefaModalPageModule} from './nova-tarefa-modal/nova-tarefa-modal.module';
+import { NovaCompraModalPage } from './nova-compra-modal/nova-compra-modal.page';
+import { NovaCompraModalPageModule } from './nova-compra-modal/nova-compra-modal.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +23,9 @@ import { IonicStorageModule } from '@ionic/storage';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    NovaTarefaModalPageModule,
+    NovaCompraModalPageModule
   ],
 
   providers: [

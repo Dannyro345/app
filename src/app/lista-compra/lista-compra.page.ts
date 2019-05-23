@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController, AlertController } from '@ionic/angular';
+import { ToastController, AlertController, ModalController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { NovaCompraModalPage } from '../nova-compra-modal/nova-compra-modal.page';
 
 @Component({
   selector: 'app-lista-compra',
   templateUrl: './lista-compra.page.html',
   styleUrls: ['./lista-compra.page.scss'],
 })
-export class ListaCompraPage  {
+export class ListaCompraPage {
 
   title = "Lista | Compras";
   compras = [];
+
   compras_key = 'compras';
 
-  nova_compra = this.criar_nova_compra();
-
   // #2 - Derclarar uma instância no construtor
-  constructor(public toastController: ToastController, public alertController: AlertController,  private storage: Storage) {
+  constructor(public toastController: ToastController, public alertController: AlertController, private storage: Storage, public modalController: ModalController) {
     {
       this.storage.get(this.compras_key).then((data) => {
         if (data) {
@@ -26,11 +26,10 @@ export class ListaCompraPage  {
     }
   }
 
-  async add() {
-    this.compras.push(this.nova_compra);
+  async add(compra) {
+    this.compras.push(compra);
     this.storage.set(this.compras_key, this.compras);
 
-    this.nova_compra = this.criar_nova_compra();
 
     // #3 - Criando um Toast
     const toast = await this.toastController.create({
@@ -42,14 +41,6 @@ export class ListaCompraPage  {
 
     // #4 Exibir a mensagem na tela
     toast.present();
-  }
-
-  criar_nova_compra() {
-    return {
-      "descricao": "",
-      "valor": ""
-
-    }
   }
 
   async remove(compra) {
@@ -67,8 +58,6 @@ export class ListaCompraPage  {
         }, {
           text: 'Ok',
           handler: async () => {
-            // Atualizar formulário
-            this.nova_compra = compra
 
             // Remover o item selecionado da lista
             var i = this.compras.indexOf(compra);
@@ -92,15 +81,25 @@ export class ListaCompraPage  {
 
     await alert.present();
 
-
-
   }
 
   edit(compra) {
-    this.nova_compra = compra
 
     var i = this.compras.indexOf(compra);
     this.compras.splice(i, 1);
 
+  }
+
+  async exibir_modal() {
+    const modal = await this.modalController.create({
+      component: NovaCompraModalPage
+    });
+
+    modal.onDidDismiss().then((retorno) => {
+      this.add(retorno.data);
+    });
+
+    //Exibição
+    await modal.present();
   }
 }
