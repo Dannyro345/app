@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>NovoAlunoModal</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Nova Aluno
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Nome:</ion-label>
+        <ion-input [(ngModel)]="novo_aluno.nome"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Perfil:</ion-label>
+        <ion-input [(ngModel)]="novo_aluno.perfil"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>URL:</ion-label>
+        <ion-input [(ngModel)]="novo_aluno.url"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Likes:</ion-label>
+        <ion-input [(ngModel)]="novo_aluno.likes"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" (click)="add()">OK</ion-button>
+
+    </ion-card-content>
+
+  </ion-card>
+</ion-content>

@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListaTarefaPage } from './lista-tarefa.page';
+import { NovoAlunoModalPage } from './novo-aluno-modal.page';
 
-describe('ListaTarefaPage', () => {
-  let component: ListaTarefaPage;
-  let fixture: ComponentFixture<ListaTarefaPage>;
+describe('NovoAlunoModalPage', () => {
+  let component: NovoAlunoModalPage;
+  let fixture: ComponentFixture<NovoAlunoModalPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListaTarefaPage ],
+      declarations: [ NovoAlunoModalPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListaTarefaPage);
+    fixture = TestBed.createComponent(NovoAlunoModalPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
